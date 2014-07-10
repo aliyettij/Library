@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * @author Jason Aliyetti <jason.aliyetti@semanticbits.com>
  */
 @Component
-public class BookResourceProcessor implements ResourceAssembler<Book, Resource<Book>>{
+public class BookResourceAssembler implements ResourceAssembler<Book, Resource<Book>>{
 
     @Autowired
     EntityLinks entityLinks;
@@ -29,7 +29,7 @@ public class BookResourceProcessor implements ResourceAssembler<Book, Resource<B
         if (resource.getContent().isCheckedOut()) {
             resource.add(entityLinks.linkForSingleResource(resource.getContent()).slash("reserve").withRel("reserve"));
         } else {
-            //TODO:  Add a link to checkout the book
+            resource.add(entityLinks.linkForSingleResource(resource.getContent()).slash("checkout").withRel("checkout"));
         }
 
         return resource;

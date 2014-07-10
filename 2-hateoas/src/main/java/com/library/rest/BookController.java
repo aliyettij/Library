@@ -1,20 +1,15 @@
 package com.library.rest;
 
 import com.library.domain.Book;
-import com.library.domain.Member;
-import com.library.hateoas.BookResourceProcessor;
+import com.library.hateoas.BookResourceAssembler;
 import com.library.service.BookRepository;
 import com.library.service.LibraryService;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler;
 import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +29,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
  */
 @Controller
 @RequestMapping(value = "/books")
+@ExposesResourceFor(Book.class)
 public class BookController {
 
     private static final Logger LOGGER = Logger.getLogger(BookController.class);
@@ -49,7 +44,7 @@ public class BookController {
     EntityLinks entityLinks;
 
     @Autowired
-    BookResourceProcessor bookResourceProcessor;
+    BookResourceAssembler bookResourceAssembler;
 
     //get collection
     @RequestMapping(method = RequestMethod.GET)
@@ -58,7 +53,7 @@ public class BookController {
 
         List<Resource<Book>> bookResources = new ArrayList<Resource<Book>>();
         for (Book book : bookRepository.findAll()) {
-            bookResources.add(bookResourceProcessor.toResource(book));
+            bookResources.add(bookResourceAssembler.toResource(book));
         }
 
 
@@ -83,7 +78,7 @@ public class BookController {
     @RequestMapping(value ="/{id}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<Resource<Book>> getBook(@PathVariable Long id) {
         Book book = bookRepository.findOne(id);
-        return new ResponseEntity<>(bookResourceProcessor.toResource(book), HttpStatus.OK);
+        return new ResponseEntity<>(bookResourceAssembler.toResource(book), HttpStatus.OK);
     }
 
 
@@ -94,7 +89,7 @@ public class BookController {
 
         Book savedBook = bookRepository.save(book);
 
-        Resource<Book> savedBookResource = bookResourceProcessor.toResource(savedBook);
+        Resource<Book> savedBookResource = bookResourceAssembler.toResource(savedBook);
         return new ResponseEntity<>(savedBookResource, HttpStatus.OK);
     }
 

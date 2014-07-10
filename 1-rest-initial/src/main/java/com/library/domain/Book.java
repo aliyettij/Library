@@ -1,9 +1,11 @@
 package com.library.domain;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.hateoas.Identifiable;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +24,7 @@ import java.util.Date;
 @Entity
 @Table(name="book")
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public class Book implements Identifiable<Long>{
+public class Book {
 
     @Id
     @GeneratedValue
@@ -33,6 +35,7 @@ public class Book implements Identifiable<Long>{
     private String author;
 
     @ManyToOne
+    @JsonBackReference("checked-out")
     private Member checkedOutTo;
 
     @Temporal(TemporalType.DATE)
@@ -41,7 +44,7 @@ public class Book implements Identifiable<Long>{
     @Temporal(TemporalType.DATE)
     private Date dueDate;
 
-    @Override
+
     public Long getId() {
         return id;
     }

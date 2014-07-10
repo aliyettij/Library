@@ -1,7 +1,9 @@
 package com.library.domain;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import org.springframework.hateoas.Identifiable;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +19,7 @@ import java.util.List;
 @Entity
 @Table(name="member")
 @JsonAutoDetect(getterVisibility = JsonAutoDetect.Visibility.ANY, fieldVisibility = JsonAutoDetect.Visibility.NONE)
-public class Member implements Identifiable<Long>{
+public class Member {
 
     @Id
     @GeneratedValue
@@ -27,9 +29,10 @@ public class Member implements Identifiable<Long>{
     private String lastName;
 
     @OneToMany(mappedBy = "checkedOutTo")
+    @JsonManagedReference("checked-out")
     private List<Book> checkedOutBooks;
 
-    @Override
+
     public Long getId() {
         return id;
     }

@@ -1,15 +1,13 @@
 package com.library.domain;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.springframework.hateoas.Identifiable;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -33,7 +31,7 @@ public class Book implements Identifiable<Long>  {
     private String author;
 
     @ManyToOne
-    @JsonIgnore
+    @JsonBackReference("checked-out")
     private Member checkedOutTo;
 
     @Temporal(TemporalType.DATE)

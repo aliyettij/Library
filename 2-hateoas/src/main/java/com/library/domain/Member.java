@@ -1,6 +1,7 @@
 package com.library.domain;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.hateoas.Identifiable;
 
 import javax.persistence.Entity;
@@ -27,6 +28,7 @@ public class Member implements Identifiable<Long>{
     private String lastName;
 
     @OneToMany(mappedBy = "checkedOutTo")
+    @JsonManagedReference("checked-out")
     private List<Book> checkedOutBooks;
 
     @Override

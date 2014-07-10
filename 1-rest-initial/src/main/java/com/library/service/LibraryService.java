@@ -1,8 +1,6 @@
 package com.library.service;
 
 import com.library.domain.Book;
-import com.library.domain.Member;
-import org.springframework.hateoas.Resources;
 
 import java.util.List;
 

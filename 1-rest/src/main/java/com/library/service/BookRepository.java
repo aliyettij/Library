@@ -3,10 +3,7 @@ package com.library.service;
 import com.library.domain.Book;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-import javax.transaction.Transaction;
-import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 

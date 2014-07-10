@@ -8,6 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.converter.xml.MarshallingHttpMessageConverter;
 import org.springframework.oxm.xstream.XStreamMarshaller;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -51,13 +52,12 @@ public class Library {
 
         XStreamMarshaller marshaller = new XStreamMarshaller();
 
+
         converter.setMarshaller(marshaller);
         converter.setUnmarshaller(marshaller);
 
         return converter;
     }
-
-
 
 
 

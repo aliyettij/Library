@@ -13,7 +13,6 @@ import java.util.List;
 /**
  * @author Jason Aliyetti <jason.aliyetti@semanticbits.com>
  */
-@RepositoryRestResource(path = "books", collectionResourceRel = "books", itemResourceRel = "book")
 public interface BookRepository extends CrudRepository<Book, Long> {
 
     List<Book> findByDueDateBefore(@Param("date") Date date);
