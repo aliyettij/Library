@@ -10,6 +10,7 @@ import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +62,8 @@ public class BookController {
         Resources<Resource<Book>> resources = new Resources<>(bookResources);
         resources.add(linkTo(BookController.class).withSelfRel());
 
+
+
         return new ResponseEntity<>(resources, HttpStatus.OK);
 
     }
@@ -71,7 +75,10 @@ public class BookController {
         Book resultItem = bookRepository.save(book);
         Resource<Book> newBookResource = new Resource<>(resultItem);
 
-        return new ResponseEntity<>(newBookResource, HttpStatus.CREATED);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create(entityLinks.linkForSingleResource(resultItem).toString()));
+
+        return new ResponseEntity<>(newBookResource, headers, HttpStatus.CREATED);
     }
 
     //get item
