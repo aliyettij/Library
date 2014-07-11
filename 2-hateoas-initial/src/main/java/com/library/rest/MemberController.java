@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,16 +22,21 @@ public class MemberController {
     MemberRepository memberRepository;
 
     //add member
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Member> createBook(@RequestBody Member member) {
-
+    /**
+     * TODO:  Wire this method (using annotations) to accept POST requests to http://localhost:8080/members
+     * This method should create a Member from the RequestBody of a POST request.
+     * @param member
+     * @return
+     */
+    public ResponseEntity<Member> createBook( Member member) {
+        member.setId(null);
         Member resultItem = memberRepository.save(member);
 
         return new ResponseEntity<>(resultItem, HttpStatus.CREATED);
     }
 
     //get members
-    @RequestMapping
+    @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<Iterable<Member>> getMembers() {
         return new ResponseEntity<>(memberRepository.findAll(), HttpStatus.OK);
@@ -40,6 +44,7 @@ public class MemberController {
 
     //get member
     @RequestMapping(value ="/{id}", method = RequestMethod.GET)
+    @ResponseBody
     public ResponseEntity<Member> getBook(@PathVariable Long id) {
         return new ResponseEntity<>(memberRepository.findOne(id), HttpStatus.OK);
     }

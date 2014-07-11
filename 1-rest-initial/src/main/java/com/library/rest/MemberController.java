@@ -33,14 +33,14 @@ public class MemberController {
      * @return
      */
     public ResponseEntity<Member> createBook( Member member) {
-
+        member.setId(null);
         Member resultItem = memberRepository.save(member);
 
         return new ResponseEntity<>(resultItem, HttpStatus.CREATED);
     }
 
     //get members
-    @RequestMapping
+    @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<Iterable<Member>> getMembers() {
         return new ResponseEntity<>(memberRepository.findAll(), HttpStatus.OK);
@@ -48,6 +48,7 @@ public class MemberController {
 
     //get member
     @RequestMapping(value ="/{id}", method = RequestMethod.GET)
+    @ResponseBody
     public ResponseEntity<Member> getBook(@PathVariable Long id) {
         return new ResponseEntity<>(memberRepository.findOne(id), HttpStatus.OK);
     }
